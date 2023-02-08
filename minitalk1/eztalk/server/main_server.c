@@ -26,6 +26,7 @@ void	sig_handler(int signum)
 			stock_bin('0');
 		else if (signum == SIGUSR2)
 			stock_bin('1');
+		return ;
 	}
 	else
 	{
@@ -33,9 +34,8 @@ void	sig_handler(int signum)
 			stock_pid('0');
 		else if (signum == SIGUSR2)
 			stock_pid('1');
+		printf("%d", g_pid_client);
 	}
-	printf("%d\n", getpid());
-	printf("%d\n", getpid());
 }
 
 void	stock_pid(char c)
@@ -44,6 +44,7 @@ void	stock_pid(char c)
 	static int			i = 0;
 	int				num;
 
+	printf("%d", g_pid_client);
 	if (i == 0)
 	{
 		if (c == '1')
@@ -95,7 +96,7 @@ char	*stock_bin(char c)
 		if (word == '\0')
 		{
 			newstr = stock_char(newstr, word, 1);
-			kill(SIGUSR2, g_pid_client);
+			kill(g_pid_client, SIGUSR2);
 			g_pid_client = 0;
 			i = 0;
 			d = 0;
@@ -118,10 +119,12 @@ int	main(void)
 	sig1.sa_flags = SA_SIGINFO;
 	sigemptyset(&sig1.sa_mask);
 	printf("%d\n", getpid());
-	sigaction(SIGUSR1, &sig1, NULL);
-	sigaction(SIGUSR2, &sig1, NULL);
 	while (1)
-		pause();
+	{
+		sigaction(SIGUSR1, &sig1, NULL);
+		sigaction(SIGUSR2, &sig1, NULL);
+	}
+
 /*		while (str[i])
 		{
 			if (str[i] == '0')

@@ -73,18 +73,17 @@ int	send_pid(char *msg, char *pid_server, char *pid)
 	pid_len = ft_strlen(pid) * 8;
 	while (i < pid_len)
 	{
+		printf("<%c", msg[i]);
 		if (msg[i] == '0')
-		{
 			kill(ft_atoi(pid_server), SIGUSR1);
-		}
 		else if (msg[i] == '1')
-		{
 			kill(ft_atoi(pid_server), SIGUSR2);
-		}
 		i++;
-		usleep(500);
+		usleep(1000);
 	}
+	printf("ok\n");
 	kill(ft_atoi(pid_server), SIGUSR2);
+	usleep(500);
 	return (pid_len);
 }
 
@@ -112,36 +111,21 @@ int	main(int argc, char **argv)
 	i = send_pid(msg, argv[1], pid);
 	while (msg[i])
 	{
+		printf(">%c", msg[i]);
 		if (msg[i] == '0')
-		{
-			signal(SIGUSR1, valid);
-			if (kill(ft_atoi(argv[1]), SIGUSR1) == -1)
-				kill(ft_atoi(argv[1]), SIGUSR1);
-		}
+			kill(ft_atoi(argv[1]), SIGUSR1);
 		else if (msg[i] == '1')
-		{
-			signal(SIGUSR1, valid);
-			if (kill(ft_atoi(argv[1]), SIGUSR2) == -1)
-				kill(ft_atoi(argv[1]), SIGUSR2);
-		}
-		usleep(2000);
+			kill(ft_atoi(argv[1]), SIGUSR2);
+		usleep(200);
 		i++;
 	}
-	kill(ft_atoi(argv[1]), SIGUSR1);
-	usleep(500);
-	kill(ft_atoi(argv[1]), SIGUSR1);
-	usleep(500);
-	kill(ft_atoi(argv[1]), SIGUSR1);
-	usleep(500);
-	kill(ft_atoi(argv[1]), SIGUSR1);
-	usleep(500);
-	kill(ft_atoi(argv[1]), SIGUSR1);
-	usleep(500);
-	kill(ft_atoi(argv[1]), SIGUSR1);
-	usleep(500);
-	kill(ft_atoi(argv[1]), SIGUSR1);
-	usleep(500);
-	kill(ft_atoi(argv[1]), SIGUSR1);
+	i = 8;
+	while (i >= 0)
+	{
+		printf("0\n");
+		kill(ft_atoi(argv[1]), SIGUSR1);
+		i--;
+	}
 	free(msg);
 	return (0);
 }

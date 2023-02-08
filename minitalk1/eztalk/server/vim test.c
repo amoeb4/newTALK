@@ -6,36 +6,9 @@
 
 int main(int argc, char **argv)
 {
-	int u = 0;
-	int i = 0;
-	char	*str = "0011011110101010101010101010101010101010100000000k";
-	while (str[i])
-	{
-		if (str[i] == '0')
-		{
-			if (kill(atoi(argv[1]), SIGUSR1) == -1)
-				if (kill(atoi(argv[1]), SIGUSR1) == -1)
-				{
-					printf("%d", u);
-					return (0);
-				}
-		}
-		else if (str[i] == '1')
-		{
-			if (kill(atoi(argv[1]), SIGUSR2) == -1)
-				if (kill(atoi(argv[1]), SIGUSR2) == -1)
-				{
-					printf("%d", u);
-					return (0);
-				}
-		}
-		i++;
-		u++;
-		if (str[i] == 'k')
-		{
-			i = 0;
-		}
-		usleep(1000);
-	}
+	if (argv[2][0] == '0')
+		kill(atoi(argv[1]), SIGUSR1);
+	else if (argv[2][0] == '1')
+		kill(atoi(argv[1]), SIGUSR2);
 	return (0);
 }
